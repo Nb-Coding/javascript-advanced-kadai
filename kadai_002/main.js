@@ -30,7 +30,6 @@ const textLists = [
 
 // ランダムなテキストを表示
 const createText = () => {
-    // 正タイプした文字列をクリア
     typed = '';
     typefield.textContent = typed;
 
@@ -42,10 +41,6 @@ const createText = () => {
 
 // キー入力の判定
 const keyPress = e => {
-    /* 変数untypedの先頭文字を取得し、変数typedの末尾に追加する
-        変数untypedに2文字目以降の文字列を再代入する（変数untypedの先頭文字を削除する）
-        定数typedfieldのtextContentプロパティに変数typedを代入する
-        定数untypedfieldのtextContentプロパティに変数untypedを代入する */
 
     //誤タイプの場合
     if (e.key !== untyped.substring(0, 1)) {
@@ -79,7 +74,6 @@ const rankCheck = score => {
     // テキストを格納する変数を作る
     let text = '';
 
-    // スコアに応じて異なるメッセージを変数textに格納する
     if (score < 100){
         text = `あなたのランクはCです。\nBランクまであと${100 - score}文字です。`;
     } else if (score < 200){
@@ -90,7 +84,6 @@ const rankCheck = score => {
         text = `あなたのランクはSです。\nおめでとうございます!`;
     }
 
-    // 生成したメッセージと一緒に文字列を返す
     return `${score}文字打てました!\n${text}\n【OK】リトライ / 【キャンセル】終了`;
 };
 
@@ -99,7 +92,6 @@ const gameOver = id => {
     clearInterval(id);
     const result =confirm(rankCheck(score));
 
-    // OKボタンをクリックされたらリロードする
     if (result == true) {
         window.location.reload();
     }
@@ -107,34 +99,28 @@ const gameOver = id => {
 
 //カウントダウンタイマー
 const timer = () => {
-    /*「スタート」ボタンをクリックしたらタイマーを開始する
-        タイマー部分のHTML要素（p要素）を取得する
-        setInterval()メソッドで1000ミリ秒（1秒）間隔の処理を作成する
-        タイマー部分のHTML要素（p要素）の値を1ずつ減らす
-        タイマーが0以下になったらclearInterval()メソッドで停止する*/
     let time = count.textContent;
 
     const id = setInterval(() => {
-        // カウントダウンする
         time--;
         count.textContent= time;
 
         // カウントが0になったらタイマーを停止する
         if (time <= 0) {
-            gameOver(id);
+            // kadai_002
+            untypedfield.textContent = 'タイムアップ！';
+            setTimeout(() => {
+                gameOver(id);
+            },10);
         }
     }, 1000); 
 };
 
 // ゲームスタート時の処理
 start.addEventListener('click',() =>{
-    //  カウントダウンタイマーを開始する
     timer();
-    // ランダムなテキストを表示
     createText();
-    // 「スタート」ボタンを非表示にする
     start.style.display = 'none';
-    // キーボードのイベント処理
     document.addEventListener('keypress',keyPress);
 });
 
