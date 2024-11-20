@@ -8,6 +8,8 @@ const untypedfield = document.getElementById('untyped');
 const typefield = document.getElementById('typed');
 const wrap =document.getElementById('wrap');
 const start = document.getElementById('start');
+//kadai_001で追加
+const successScore = document.getElementById('success-score');
 
 // 複数のテキストを格納する配列
 const textLists = [
@@ -37,9 +39,8 @@ const createText = () => {
     untyped = textLists[randomNumber];
     untypedfield.textContent = untyped;
 };
-//createText();
 
-// キー入力の判
+// キー入力の判定
 const keyPress = e => {
     /* 変数untypedの先頭文字を取得し、変数typedの末尾に追加する
         変数untypedに2文字目以降の文字列を再代入する（変数untypedの先頭文字を削除する）
@@ -63,6 +64,9 @@ const keyPress = e => {
     untyped = untyped.substring(1);
     typefield.textContent = typed;
     untypedfield.textContent = untyped;
+
+    //kadai_001で追加
+    successScore.textContent = score;
 
     // テキストがなくなったら新しいテキストを表示
     if (untyped === '') {
@@ -121,9 +125,6 @@ const timer = () => {
         }
     }, 1000); 
 };
-
-/*// キーボードのイベント処理
-document.addEventListener('keypress',keyPress);*/
 
 // ゲームスタート時の処理
 start.addEventListener('click',() =>{
