@@ -8,7 +8,6 @@ const untypedfield = document.getElementById('untyped');
 const typefield = document.getElementById('typed');
 const wrap =document.getElementById('wrap');
 const start = document.getElementById('start');
-//kadai_001で追加
 const successScore = document.getElementById('success-score');
 
 // 複数のテキストを格納する配列
@@ -41,11 +40,10 @@ const createText = () => {
 
 // キー入力の判定
 const keyPress = e => {
-
     //誤タイプの場合
     if (e.key !== untyped.substring(0, 1)) {
         wrap.classList.add('mistyped');
-        // 100ms後に背景色を元に戻す
+
         setTimeout(()=>{
             wrap.classList.remove('mistyped');
         }, 100);
@@ -53,14 +51,11 @@ const keyPress = e => {
     }
 
     // 正タイプの場合
-    // スコアのインクリメント
     score++;
     typed += untyped.substring(0,1);
     untyped = untyped.substring(1);
     typefield.textContent = typed;
     untypedfield.textContent = untyped;
-
-    //kadai_001で追加
     successScore.textContent = score;
 
     // テキストがなくなったら新しいテキストを表示
@@ -71,7 +66,6 @@ const keyPress = e => {
 
 // タイピングスキルのランクを判定
 const rankCheck = score => {
-    // テキストを格納する変数を作る
     let text = '';
 
     if (score < 100){
@@ -89,14 +83,16 @@ const rankCheck = score => {
 
 //ゲームを終了
 const gameOver = id => {
+    untypedfield.textContent= 'タイムアップ！';
     clearInterval(id);
-    const result =confirm(rankCheck(score));
-    // kadai_002
-    untypedfield.textContent = 'タイムアップ！';
 
-    if (result == true) {
+    setTimeout(() => {
+        const result =confirm(rankCheck(score))
+        // OKボタンをクリックされたらリロードする
+        if (result == true) {
         window.location.reload();
-    }
+        }
+    },10);
 };
 
 //カウントダウンタイマー
@@ -104,24 +100,25 @@ const timer = () => {
     let time = count.textContent;
 
     const id = setInterval(() => {
-        time--;
+        time-=60;
         count.textContent= time;
 
         // カウントが0になったらタイマーを停止する
         if (time <= 0) {
-        // kadai_002
-            setTimeout(() => {
-                gameOver(id);
-            },10);
+            gameOver(id);
         }
     }, 1000); 
 };
 
 // ゲームスタート時の処理
 start.addEventListener('click',() =>{
+    //  カウントダウンタイマーを開始する
     timer();
+    // ランダムなテキストを表示
     createText();
+    // 「スタート」ボタンを非表示にする
     start.style.display = 'none';
+    // キーボードのイベント処理
     document.addEventListener('keypress',keyPress);
 });
 
