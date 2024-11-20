@@ -91,6 +91,8 @@ const rankCheck = score => {
 const gameOver = id => {
     clearInterval(id);
     const result =confirm(rankCheck(score));
+    // kadai_002
+    untypedfield.textContent = 'タイムアップ！';
 
     if (result == true) {
         window.location.reload();
@@ -102,13 +104,12 @@ const timer = () => {
     let time = count.textContent;
 
     const id = setInterval(() => {
-        time--;
+        time-=60;
         count.textContent= time;
 
         // カウントが0になったらタイマーを停止する
         if (time <= 0) {
-            // kadai_002
-            untypedfield.textContent = 'タイムアップ！';
+        // kadai_002
             setTimeout(() => {
                 gameOver(id);
             },10);
