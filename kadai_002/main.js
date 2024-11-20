@@ -104,7 +104,7 @@ const timer = () => {
     let time = count.textContent;
 
     const id = setInterval(() => {
-        time-=60;
+        time--;
         count.textContent= time;
 
         // カウントが0になったらタイマーを停止する
